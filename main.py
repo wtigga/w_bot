@@ -14,7 +14,7 @@ def send_welcome(message: Message):
     bot.reply_to(message, 'Пока, бро.')
 
 trigger = ['китай', 'китаи', 'китае', 'china']
-answers = ['Ненавижу Китай!', 'Обожаю Китай!']
+answers = ['Ненавижу Китай!', 'Обожаю Китай!', 'Китай - это где?']
 
 @bot.message_handler(func=lambda message: True)
 def upper(message: Message):
