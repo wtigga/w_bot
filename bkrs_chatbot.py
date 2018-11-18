@@ -1,8 +1,9 @@
 import telebot
 import random
+import os
 from telebot.types import Message
 
-TOKEN = '794930488:AAEtpnGGR0NcidyV1JcA-tJOL0PjkI7DpiU'
+TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
 trigger = ['обожаю китай',
