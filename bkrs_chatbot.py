@@ -13,7 +13,8 @@ trigger = ['обожаю китай',
            'китай...',
            'любишь китай',
            'хочешь в китай',
-           'любит китай']
+           'любит китай',
+           ]
 
 answers = ['Ненавижу Китай!',
            'Обожаю Китай!',
@@ -22,22 +23,42 @@ answers = ['Ненавижу Китай!',
            'Восемь тысяч лет истории!',
            'Стопятьдесят тысяч лет истории!']
 
+shenzhen_trigger = ['шеньжень',
+           'шенчжен',
+           'шэнчжэн',
+           'шенжен',
+           'шенджен',
+           'шенчжен',
+           'женьшень',
+           ' ШЖ',
+           ]
+
+shenzhen_answer = ['Шамбала?',
+           'Каншифу?',
+           'Жэньшень?',
+           'Шаолинь?',
+           'Шаисы?',]
 
 @bot.message_handler(func=lambda message: True)
-def upper(message: Message):
-    reply = message.text
-    reply = reply.lower()
+def butthurt(message: Message):
+    reply = message.text.lower()
     counter = 0
     for i in trigger:
         if i in reply:
             counter = counter + 1
             break
-        else:
-            pass
     if counter > 0:
         bot.reply_to(message, random.choice(answers))
-    else:
-        pass
 
+@bot.message_handler(func=lambda message: True)
+def shenzhen(message: Message):
+    reply = message.text.lower()
+    counter = 0
+    for i in shenzhen_trigger:
+        if i in reply:
+            counter = counter + 1
+            break
+    if counter > 0:
+        bot.reply_to(message, random.choice(shenzhen_answer))
 
 bot.polling()
