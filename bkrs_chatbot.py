@@ -50,7 +50,7 @@ def butthurt(message: Message):
     if counter > 0:
         bot.reply_to(message, random.choice(answers))
 
-@bot.message_handler(func=lambda message: True)
+
 def shenzhen(message: Message):
     reply = message.text.lower()
     counter = 0
@@ -60,5 +60,7 @@ def shenzhen(message: Message):
             break
     if counter > 0:
         bot.reply_to(message, random.choice(shenzhen_answer))
+
+
 
 bot.polling()
