@@ -39,6 +39,7 @@ shenzhen_answer = ['Шамбала?',
            'Шаолинь?',
            'Шаисы?',]
 
+
 @bot.message_handler(func=lambda message: True)
 def butthurt(message: Message):
     reply = message.text.lower()
@@ -49,18 +50,13 @@ def butthurt(message: Message):
             break
     if counter > 0:
         bot.reply_to(message, random.choice(answers))
-
-
-def shenzhen(message: Message):
-    reply = message.text.lower()
-    counter = 0
+    counter_2 = 0
     for i in shenzhen_trigger:
         if i in reply:
-            counter = counter + 1
+            counter_2 = counter_2 + 1
             break
-    if counter > 0:
+    if counter_2 > 0:
         bot.reply_to(message, random.choice(shenzhen_answer))
-
 
 
 bot.polling()
