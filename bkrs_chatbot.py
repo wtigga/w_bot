@@ -39,6 +39,7 @@ def butthurt(message: Message):
                 if i in reply:
                     bot.reply_to(message, random.choice(answers_shenzhen))
                     break
-
+                else:
+                    break
 
 bot.polling()
