@@ -32,4 +32,5 @@ def upper(message: Message):
     else:
         pass
 
+
 bot.polling()
