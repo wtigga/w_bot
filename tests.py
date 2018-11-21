@@ -1,12 +1,29 @@
-import telebot
-import random
-import os
-from telebot.types import Message
+import csv
 
-TOKEN = os.environ.get('TOKEN')
-bot = telebot.TeleBot(TOKEN)
+with open('triggers.csv', 'r', encoding='utf-8') as file:
+  reader = csv.reader(file, delimiter='\t')
+  read_list = list(reader)
 
-trigger = ['обожаю китай',
+
+def clean_list(my_list):  # clean CSV list of empty cells
+    for i in my_list:
+            try:
+                my_list.pop(my_list.index(''))
+            except:
+                pass
+    return my_list
+
+
+trigger_china = clean_list(read_list[0])
+trigger_shenzhen = clean_list(read_list[1])
+answers_china = clean_list(read_list[2])
+answers_shenzhen = clean_list(read_list[3])
+
+
+
+
+
+trigger_china = ['обожаю китай',
            'ненавижу китай',
            'долбаный китай',
            'сраный китай',
@@ -19,14 +36,14 @@ trigger = ['обожаю китай',
            'товарищ си'
            ]
 
-answers = ['Ненавижу Китай!',
+answers_china = ['Ненавижу Китай!',
            'Обожаю Китай!',
            'Великий Китай!',
            'Пять тысяч лет истории!',
            'Восемь тысяч лет истории!',
            'Стопятьдесят тысяч лет истории!']
 
-shenzhen_trigger = ['шеньжень',
+trigger_shenzhen = ['шеньжень',
            'шенчжен',
            'шэнчжэн',
            'шенжен',
@@ -35,30 +52,8 @@ shenzhen_trigger = ['шеньжень',
            'женьшень',
            'ШЖ']
 
-shenzhen_answer = ['Шамбала?',
+answers_shenzhen = ['Шамбала?',
            'Каншифу?',
            'Жэньшень?',
            'Шаолинь?',
            'Шаисы?',]
-
-
-@bot.message_handler(func=lambda message: True)
-def butthurt(message: Message):
-    reply = message.text.lower()
-    counter = 0
-    for i in trigger:
-        if i in reply:
-            counter = counter + 1
-            break
-    if counter > 0:
-        bot.reply_to(message, random.choice(answers))
-    counter_2 = 0
-    for i in shenzhen_trigger:
-        if i in reply:
-            counter_2 = counter_2 + 1
-            break
-    if counter_2 > 0:
-        bot.reply_to(message, random.choice(shenzhen_answer))
-
-
-bot.polling()
