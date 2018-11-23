@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d3f27e7e-175a-4574-a30c-d0d1e3bd7e8d" name="Default Changelist" comment="updatedw">
+    <list default="true" id="d3f27e7e-175a-4574-a30c-d0d1e3bd7e8d" name="Default Changelist" comment="honk kong bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bkrs_chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bkrs_chatbot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/answers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/answers.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/triggers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/triggers.csv" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -68,14 +69,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bkrs_chatbot.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bkrs_chatbot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bkrs_chatbot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="300">
+              <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="triggers.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/triggers.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="answers.csv" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/answers.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="115" lean-forward="true" selection-start-column="115" selection-end-column="115" />
             </state>
           </provider>
         </entry>
@@ -127,9 +146,10 @@
         <option value="$PROJECT_DIR$/venv/requirements.txt" />
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/answers.csv" />
         <option value="$PROJECT_DIR$/tests.py" />
         <option value="$PROJECT_DIR$/bkrs_chatbot.py" />
+        <option value="$PROJECT_DIR$/triggers.csv" />
+        <option value="$PROJECT_DIR$/answers.csv" />
       </list>
     </option>
   </component>
@@ -393,7 +413,28 @@
       <option name="project" value="LOCAL" />
       <updated>1542980212225</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="bugfixes">
+      <created>1542981936280</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1542981936280</updated>
+    </task>
+    <task id="LOCAL-00021" summary="new trigger HK added">
+      <created>1542982089497</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1542982089497</updated>
+    </task>
+    <task id="LOCAL-00022" summary="honk kong bug fixes">
+      <created>1542984726849</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1542984726849</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -449,7 +490,10 @@
     <MESSAGE value="new logic with lines in CSV" />
     <MESSAGE value="answers added" />
     <MESSAGE value="updatedw" />
-    <option name="LAST_COMMIT_MESSAGE" value="updatedw" />
+    <MESSAGE value="bugfixes" />
+    <MESSAGE value="new trigger HK added" />
+    <MESSAGE value="honk kong bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="honk kong bug fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -513,13 +557,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/answers.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="1" selection-start-column="1" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="241">
@@ -544,20 +581,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/triggers.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bkrs_chatbot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="300">
+          <caret line="20" column="12" lean-forward="true" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/triggers.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/answers.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="115" lean-forward="true" selection-start-column="115" selection-end-column="115" />
         </state>
       </provider>
     </entry>
