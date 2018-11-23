@@ -24,7 +24,7 @@ bot = telebot.TeleBot(TOKEN)
 # trigger_china = clean_list(read_list[0])
 # trigger_shenzhen = clean_list(read_list[1])
 # answers_china = clean_list(read_list[2])
-answers_shenzhen = clean_list(read_list[3])
+# answers_shenzhen = clean_list(read_list[3])
 
 #list comprehension
 trigger_china = set([i for i in read_list[0] if len(i) > 0])
