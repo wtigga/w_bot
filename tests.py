@@ -1,12 +1,7 @@
 import telebot
 import random
 import os
-from telebot.types import Message
 import csv
-
-with open('triggers.csv', 'r', encoding='utf-8') as file:  # read content from CSV
-    reader = csv.reader(file, delimiter='\t')
-    read_list = list(reader)
 
 
 def clean_list(my_list):  # clean CSV list of empty cells
@@ -18,50 +13,52 @@ def clean_list(my_list):  # clean CSV list of empty cells
     return my_list
 
 
+def read_csv(filename):
+    with open(filename, 'r', encoding='utf-8') as file:  # read content from CSV
+        reader = csv.reader(file, delimiter='\t')
+        output_list = list(reader)
+        return output_list
+
+
+triggers_all = read_csv('triggers.csv')
+answers_all = read_csv('answers.csv')
+
+def clean_upper_list(my_list):
+    all_list = []
+    for line in my_list:
+        line = clean_list(line)
+        all_list.append(line)
+    return(all_list)
+
+triggers_all = clean_upper_list(triggers_all)
+answers_all = clean_upper_list(answers_all)
+
+
+
+'''
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
-trigger_china = clean_list(read_list[0])
-trigger_shenzhen = clean_list(read_list[1])
-answers_china = clean_list(read_list[2])
-answers_shenzhen = clean_list(read_list[3])
+trigger_china = clean_list(triggers_all[0])
+trigger_shenzhen = clean_list(triggers_all[1])
+answers_china = clean_list(answers_all[0])
+answers_shenzhen = clean_list(answers_all[1])
+'''
 
 
 
-def butthurt(message):
-    reply = message.lower()
-    for i in trigger_china:
-        if i in reply:
-            print(random.choice(answers_china))
-            break
-        else:
-            for i in trigger_shenzhen:
-                if i in reply:
-                    print(random.choice(answers_shenzhen))
-                    break
-                else:
-                    break
 
-def butthurt2(message):
-    for each in trigger_china:
-        if each in message:
-            print(random.choice(answers_china))
-            break
-
-def butthurt3(message):
-    counter = 0
-    for row in read_list:
-        #print(read_list[counter])
-        for element in read_list[counter]:
-            if element in message:
-                print(random.choice(read_list[counter + 1]))
+def butthurt2(message, triggers, answers):
+    message = message.lower()  # переводим сообщение юзера в нижний регистр
+    count = 0  # считаем номер строки, по которой будет определён ответ
+    for line in triggers:
+        for each in line:  # для каждого слова из выбранного списка
+            if each in message: # если слово из списка присутствует в сообщении
+                print(random.choice(answers[count]))  # выбираем случайный ответ из строки
                 break
-            else:
-                pass
-        counter = counter + 1
-
+        count = count + 1
 
 
 while True:
-    message = input('Введите ваше сообщение: ')
-    butthurt3(message)
+    message_user = input('Введите ваше сообщение: ')
+    butthurt2(message_user, triggers_all, answers_all)

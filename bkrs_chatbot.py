@@ -4,27 +4,41 @@ import os
 from telebot.types import Message
 import csv
 
-with open('triggers.csv', 'r', encoding='utf-8') as file:  # read content from CSV
-  reader = csv.reader(file, delimiter='\t')
-  read_list = list(reader)
-
-
-def clean_list(my_list):  # clean CSV list of empty cells
-     for i in my_list:
-             try:
-                 my_list.pop(my_list.index(''))
-             except:
-                 pass
-     return my_list
-
 
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
-trigger_china = clean_list(read_list[0])
-trigger_shenzhen = clean_list(read_list[1])
-answers_china = clean_list(read_list[2])
-answers_shenzhen = clean_list(read_list[3])
+
+def read_csv(filename):
+    with open(filename, 'r', encoding='utf-8') as file:  # read content from CSV
+        reader = csv.reader(file, delimiter='\t')
+        output_list = list(reader)
+        return output_list
+
+
+def clean_list(my_list):  # clean CSV list of empty cells
+    for i in my_list:
+        try:
+            my_list.pop(my_list.index(''))
+        except:
+            pass
+    return my_list
+
+
+def clean_upper_list(my_list):
+    all_list = []
+    for line in my_list:
+        line = clean_list(line)
+        all_list.append(line)
+    return(all_list)
+
+
+triggers_all = read_csv('triggers.csv')
+answers_all = read_csv('answers.csv')
+triggers_all = clean_upper_list(triggers_all)
+answers_all = clean_upper_list(answers_all)
+
+
 
 '''
 #list comprehension
@@ -32,7 +46,6 @@ trigger_china = set([i for i in read_list[0] if len(i) > 0])
 trigger_shenzhen = set([i for i in read_list[1] if len(i) > 0])
 answers_china = set([i for i in read_list[2] if len(i) > 0])
 answers_shenzhen = set([i for i in read_list[3] if len(i) > 0])
-'''
 
 
 @bot.message_handler(func=lambda message: True)
@@ -47,17 +60,19 @@ def butthurt(message: Message):
             _trigger_china = reply.intersection(trigger_china)
             if len(_trigger_china) > 0:
                 bot.reply_to(message, random.choice(answers_china))
+                
+'''
 
-    # for i in trigger_china:
-    #     if i in reply:
-    #         bot.reply_to(message, random.choice(answers_china))
-    #         break
-    #     else:
-    #         for i in trigger_shenzhen:
-    #             if i in reply:
-    #                 bot.reply_to(message, random.choice(answers_shenzhen))
-    #                 break
-    #             else:
-    #                 break
+@bot.message_handler(func=lambda message: True)
+def butthurt2(message: Message, triggers, answers):
+    message = message.text.lower()  # переводим сообщение юзера в нижний регистр
+    count = 0  # считаем номер строки, по которой будет определён ответ
+    for line in triggers:
+        for each in line:  # для каждого слова из выбранного списка
+            if each in message: # если слово из списка присутствует в сообщении
+                bot.reply_to(message, random.choice(answers[count]))  # выбираем случайный ответ из строки
+                break
+        count = count + 1
+
 
 bot.polling()
