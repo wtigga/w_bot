@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d3f27e7e-175a-4574-a30c-d0d1e3bd7e8d" name="Default Changelist" comment="return old clean list logic">
+    <list default="true" id="d3f27e7e-175a-4574-a30c-d0d1e3bd7e8d" name="Default Changelist" comment="updatedw">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bkrs_chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bkrs_chatbot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/triggers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/triggers.csv" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -72,8 +71,8 @@
       <file leaf-file-name="bkrs_chatbot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bkrs_chatbot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="547">
-              <caret line="77" column="13" lean-forward="true" selection-start-line="77" selection-start-column="13" selection-end-line="77" selection-end-column="13" />
+            <state relative-caret-position="105">
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -84,7 +83,7 @@
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
+            <state relative-caret-position="241">
               <caret line="44" column="16" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="16" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -105,11 +104,15 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>upper</find>
+      <find>str</find>
+      <find>c</find>
+      <find>chat</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="wtigga &lt;wtigga@gmail.com&gt;" />
         <option value="Vladimir 'WTiggA' Zh &lt;wtigga@users.noreply.github.com&gt;" />
         <option value="Vlad" />
       </list>
@@ -178,7 +181,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.tests">
+  <component name="RunManager" selected="Python.bkrs_chatbot">
     <configuration name="bkrs_chatbot" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="w_bot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -240,8 +243,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.tests" />
         <item itemvalue="Python.bkrs_chatbot" />
+        <item itemvalue="Python.tests" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -369,7 +372,28 @@
       <option name="project" value="LOCAL" />
       <updated>1542960186417</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="new logic with lines in CSV">
+      <created>1542969946117</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1542969946117</updated>
+    </task>
+    <task id="LOCAL-00018" summary="answers added">
+      <created>1542970060242</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1542970060242</updated>
+    </task>
+    <task id="LOCAL-00019" summary="updatedw">
+      <created>1542980212225</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1542980212225</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView" selected-index="1">
@@ -388,7 +412,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1529246" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32968238" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="5" weight="0.3319027" />
+      <window_info anchor="bottom" id="Run" order="5" visible="true" weight="0.3319027" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.32968238" />
       <window_info anchor="bottom" id="Python Console" order="1" weight="0.32968238" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -422,7 +446,10 @@
     <MESSAGE value="simplified logic" />
     <MESSAGE value="fixed bug" />
     <MESSAGE value="return old clean list logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="return old clean list logic" />
+    <MESSAGE value="new logic with lines in CSV" />
+    <MESSAGE value="answers added" />
+    <MESSAGE value="updatedw" />
+    <option name="LAST_COMMIT_MESSAGE" value="updatedw" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -493,16 +520,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/triggers.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
+        <state relative-caret-position="241">
           <caret line="44" column="16" selection-start-line="44" selection-start-column="16" selection-end-line="44" selection-end-column="16" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
@@ -510,10 +530,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.venv/lib/python3.7/site-packages/telebot/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="1063" selection-start-line="1063" selection-end-line="1063" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.venv/lib/python3.7/site-packages/telebot/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="160" column="48" selection-start-line="160" selection-start-column="44" selection-end-line="160" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/triggers.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bkrs_chatbot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="77" column="13" lean-forward="true" selection-start-line="77" selection-start-column="13" selection-end-line="77" selection-end-column="13" />
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

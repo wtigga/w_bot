@@ -5,7 +5,6 @@ from telebot.types import Message
 import csv
 
 
-
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
@@ -40,7 +39,6 @@ triggers_all = clean_upper_list(triggers_all)
 answers_all = clean_upper_list(answers_all)
 
 
-
 '''
 #list comprehension
 trigger_china = set([i for i in read_list[0] if len(i) > 0])
@@ -60,17 +58,18 @@ def butthurt(message: Message):
         else:
             _trigger_china = reply.intersection(trigger_china)
             if len(_trigger_china) > 0:
-                bot.reply_to(message, random.choice(answers_china))
-                
+                bot.reply_to(message, random.choice(answers_china))                
 '''
 
 @bot.message_handler(func=lambda message: True)
-def butthurt2(message: Message, triggers, answers):
-    message = message.text.lower()  # переводим сообщение юзера в нижний регистр
+def butthurt2(message: Message):
+    triggers = triggers_all
+    answers = answers_all
+    reply = message.text.lower()  # переводим сообщение юзера в нижний регистр
     count = 0  # считаем номер строки, по которой будет определён ответ
     for line in triggers:
         for each in line:  # для каждого слова из выбранного списка
-            if each in message: # если слово из списка присутствует в сообщении
+            if each in reply: # если слово из списка присутствует в сообщении
                 bot.reply_to(message, random.choice(answers[count]))  # выбираем случайный ответ из строки
                 break
         count = count + 1
