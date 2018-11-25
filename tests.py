@@ -1,6 +1,4 @@
-import telebot
 import random
-import os
 import csv
 
 
@@ -16,7 +14,7 @@ def clean_list(my_list):  # clean CSV list of empty cells
 def read_csv(filename):
     with open(filename, 'r', encoding='utf-8') as file:  # read content from CSV
         reader = csv.reader(file, delimiter='\t')
-        output_list = list(reader)
+        output_list = tuple(list(reader))
         return output_list
 
 
@@ -28,11 +26,13 @@ def clean_upper_list(my_list):
     for line in my_list:
         line = clean_list(line)
         all_list.append(line)
-    return(all_list)
+    return tuple(all_list)
 
 triggers_all = clean_upper_list(triggers_all)
 answers_all = clean_upper_list(answers_all)
 
+triggers_all = tuple(triggers_all)
+answers_all = tuple(answers_all)
 
 
 '''
