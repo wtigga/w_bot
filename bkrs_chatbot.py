@@ -34,12 +34,14 @@ def clean_upper_list(my_list):
         all_list.append(line)
     return all_list
 
+
 def currency_cny_rub():
     with urllib.request.urlopen("http://free.currencyconverterapi.com/api/v5/convert?q=CNY_RUB&compact=y") as url:
         data = json.load(url)
         data = data["CNY_RUB"]["val"]
         output = str('Курс юаня к рублю: ' + str(data))
         return output
+    
 
 triggers_all = tuple(clean_upper_list(read_csv('triggers.csv')))  # use tuples to speed up search and iterations
 answers_all = tuple(clean_upper_list(read_csv('answers.csv')))
@@ -50,9 +52,9 @@ def send_welcome(message: Message):
     bot.reply_to(message, 'Привет, бро.')
 
 
-@bot.message_handler(commands=['stop'])
-def send_welcome(message: Message):
-    bot.reply_to(message, 'Пока, бро.')
+@bot.message_handler(commands=['cny'])
+def currency_rate(message: Message):
+    bot.reply_to(message, currency_cny_rub())
 
 
 @bot.message_handler(func=lambda message: True)
@@ -68,7 +70,7 @@ def react_to_messages(message: Message):
 
 
 @bot.message_handler(func=lambda message: True)
-def react_to_messages(message: Message):
+def return_currency(message: Message):
     reply = message.text.lower()
     yuan_trigger = 'курс юаня'
     if yuan_trigger in reply:
