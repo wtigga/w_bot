@@ -51,7 +51,7 @@ answers_all = tuple(clean_upper_list(read_csv('answers.csv')))
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message: Message):
-    bot.reply_to(message, 'Привет, бро.')
+    bot.reply_to(message, 'Привет, бро. Я могу сказать курс валют по командам /cny, /rub и /usd')
 
 
 @bot.message_handler(commands=['cny'])
@@ -59,9 +59,15 @@ def currency_cny(message: Message):
     bot.reply_to(message, currency('CNY_RUB'))
 
 
-curr_cnyrub = 'курс юаня'
-curr_usdrub = 'курс доллара'
-curr_usdcny = 'курс рубля'
+@bot.message_handler(commands=['usd'])
+def currency_usd(message: Message):
+    bot.reply_to(message, currency('USD_CNY'))
+
+
+@bot.message_handler(commands=['rub'])
+def currency_rub(message: Message):
+    bot.reply_to(message, currency('USD_RUB'))
+
 
 @bot.message_handler(func=lambda message: True)
 def react_to_messages(message: Message):
@@ -73,12 +79,6 @@ def react_to_messages(message: Message):
                 bot.reply_to(message, random.choice(answers_all[count]))  # pick a random answer from the corresponding answer line
                 break  # to prevent answering multiple times to several trigger word
         count = count + 1
-    if curr_cnyrub in reply:
-        currency('CNY_RUB')
-    elif curr_usdcny in reply:
-        currency('USD_CNY')
-    elif curr_usdrub in reply:
-        currency('USD_RUB')
 
 
 bot.polling()  # this run bot messages handler
