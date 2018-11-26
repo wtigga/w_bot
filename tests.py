@@ -1,6 +1,8 @@
 import random
 import csv
-
+import urllib.request, json
+from pprint import pprint
+'''
 
 def clean_list(my_list):  # clean CSV list of empty cells
     for i in my_list:
@@ -34,7 +36,7 @@ answers_all = clean_upper_list(answers_all)
 triggers_all = tuple(triggers_all)
 answers_all = tuple(answers_all)
 
-
+'''
 '''
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
@@ -46,7 +48,7 @@ answers_shenzhen = clean_list(answers_all[1])
 '''
 
 
-
+'''
 
 def butthurt2(message, triggers, answers):
     message = message.lower()  # переводим сообщение юзера в нижний регистр
@@ -62,3 +64,12 @@ def butthurt2(message, triggers, answers):
 while True:
     message_user = input('Введите ваше сообщение: ')
     butthurt2(message_user, triggers_all, answers_all)
+'''
+def currency_cny_rub():
+    with urllib.request.urlopen("http://free.currencyconverterapi.com/api/v5/convert?q=CNY_RUB&compact=y") as url:
+        data = json.load(url)
+        data = data["CNY_RUB"]["val"]
+        output = str('Курс юаня к рублю: ' + str(data))
+        return output
+
+print(currency_cny_rub())

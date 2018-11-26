@@ -3,6 +3,7 @@ import random
 import os
 from telebot.types import Message
 import csv
+import urllib.request, json
 
 # TOKEN = os.environ.get('TOKEN')
 TOKEN = os.environ.get('TOKEN')
@@ -33,6 +34,12 @@ def clean_upper_list(my_list):
         all_list.append(line)
     return all_list
 
+def currency_cny_rub():
+    with urllib.request.urlopen("http://free.currencyconverterapi.com/api/v5/convert?q=CNY_RUB&compact=y") as url:
+        data = json.load(url)
+        data = data["CNY_RUB"]["val"]
+        output = str('Курс юаня к рублю: ' + str(data))
+        return output
 
 triggers_all = tuple(clean_upper_list(read_csv('triggers.csv')))  # use tuples to speed up search and iterations
 answers_all = tuple(clean_upper_list(read_csv('answers.csv')))
@@ -58,6 +65,13 @@ def react_to_messages(message: Message):
                 bot.reply_to(message, random.choice(answers_all[count]))  # pick a random answer from the corresponding answer line
                 break  # to prevent answering multiple times to several trigger word
         count = count + 1
+
+
+@bot.message_handler(func=lambda message: True)
+def react_to_messages(message: Message):
+    reply = message.text.lower()  # lowercase user's message to avoid case affect search
+    if 'курс юаня' in reply:
+        bot.reply_to(message, currency_cny_rub)
 
 
 bot.polling()  # this run bot messages handler
