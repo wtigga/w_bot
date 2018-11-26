@@ -6,7 +6,7 @@ import csv
 import urllib.request, json
 
 # TOKEN = os.environ.get('TOKEN')
-TOKEN = '693341817:AAEfhue_WpflCG_V3ivFyLq2efn8zAuPgFY'
+TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
 
