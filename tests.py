@@ -65,11 +65,16 @@ while True:
     message_user = input('Введите ваше сообщение: ')
     butthurt2(message_user, triggers_all, answers_all)
 '''
-def currency_cny_rub():
-    with urllib.request.urlopen("http://free.currencyconverterapi.com/api/v5/convert?q=CNY_RUB&compact=y") as url:
-        data = json.load(url)
-        data = data["CNY_RUB"]["val"]
-        output = str('Курс юаня к рублю: ' + str(data))
+
+
+def currency(currency_pair):
+    currencies_texts = {'CNY_RUB': 'рубля к юаню',
+                        'USD_CNY': 'юаня к доллару',
+                        'USD_RUB': 'рубля к доллару'}
+    with urllib.request.urlopen(f"http://free.currencyconverterapi.com/api/v5/convert?q={currency_pair}&compact=y") as url:
+        data = round((json.load(url)[currency_pair]["val"]), 3)  # get currency rate from VAL, round to 3 digits float
+        output = (f'Курс {currencies_texts[currency_pair]}: ' + str(data))
         return output
 
-print(currency_cny_rub())
+
+print(currency('USD_RUB'))

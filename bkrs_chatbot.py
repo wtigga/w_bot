@@ -35,11 +35,13 @@ def clean_upper_list(my_list):
     return all_list
 
 
-def currency_cny_rub():
-    with urllib.request.urlopen("http://free.currencyconverterapi.com/api/v5/convert?q=CNY_RUB&compact=y") as url:
-        data = json.load(url)
-        data = data["CNY_RUB"]["val"]
-        output = str('Курс юаня к рублю: ' + str(data))
+def currency(currency_pair):
+    currencies_texts = {'CNY_RUB': 'рубля к юаню',
+                        'USD_CNY': 'юаня к доллару',
+                        'USD_RUB': 'рубля к доллару'}
+    with urllib.request.urlopen(f"http://free.currencyconverterapi.com/api/v5/convert?q={currency_pair}&compact=y") as url:
+        data = round((json.load(url)[currency_pair]["val"]), 3)  # get currency rate from VAL, round to 3 digits float
+        output = (f'Курс {currencies_texts[currency_pair]}: ' + str(data))
         return output
     
 
@@ -53,9 +55,13 @@ def send_welcome(message: Message):
 
 
 @bot.message_handler(commands=['cny'])
-def currency_rate(message: Message):
-    bot.reply_to(message, currency_cny_rub())
+def currency_cny(message: Message):
+    bot.reply_to(message, currency('CNY_RUB'))
 
+
+curr_cnyrub = 'курс юаня'
+curr_usdrub = 'курс доллара'
+curr_usdcny = 'курс рубля'
 
 @bot.message_handler(func=lambda message: True)
 def react_to_messages(message: Message):
@@ -67,14 +73,12 @@ def react_to_messages(message: Message):
                 bot.reply_to(message, random.choice(answers_all[count]))  # pick a random answer from the corresponding answer line
                 break  # to prevent answering multiple times to several trigger word
         count = count + 1
-
-
-@bot.message_handler(func=lambda message: True)
-def return_currency(message: Message):
-    reply = message.text.lower()
-    yuan_trigger = 'курс юаня'
-    if yuan_trigger in reply:
-        bot.reply_to(message, currency_cny_rub())
+    if curr_cnyrub in reply:
+        currency('CNY_RUB')
+    elif curr_usdcny in reply:
+        currency('USD_CNY')
+    elif curr_usdrub in reply:
+        currency('USD_RUB')
 
 
 bot.polling()  # this run bot messages handler
