@@ -6,7 +6,7 @@ import csv
 import urllib.request, json
 
 # TOKEN = os.environ.get('TOKEN')
-TOKEN = os.environ.get('TOKEN')
+TOKEN = '693341817:AAEfhue_WpflCG_V3ivFyLq2efn8zAuPgFY'
 bot = telebot.TeleBot(TOKEN)
 
 
@@ -69,9 +69,10 @@ def react_to_messages(message: Message):
 
 @bot.message_handler(func=lambda message: True)
 def react_to_messages(message: Message):
-    reply = message.text.lower()  # lowercase user's message to avoid case affect search
-    if 'курс юаня' in reply:
-        bot.reply_to(message, currency_cny_rub)
+    reply = message.text.lower()
+    yuan_trigger = 'курс юаня'
+    if yuan_trigger in reply:
+        bot.reply_to(message, currency_cny_rub())
 
 
 bot.polling()  # this run bot messages handler
