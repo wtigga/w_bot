@@ -4,6 +4,8 @@
 import multiprocessing as mp
 import searchengine.crawler as crawl
 
+crawler = crawl.crawler('searchindex.db')
+
 def work(link):
 	res = None
 
@@ -48,7 +50,6 @@ def main(iter):
 
 
 if __name__ == '__main__':
-	crawler = crawl.crawler('searchindex.db')
 	page = 'https://bkrs.info/taolun/index.php'
 	# page = 'https://bkrs.info/taolun/thread-309342.html'
 	# crawler.createindextables(True)

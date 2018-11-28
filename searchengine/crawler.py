@@ -100,7 +100,6 @@ class crawler:
 
     # crawling to depth
     def crawl(self, pages):
-        print('run crawl')
         newpages = set()
         for page in pages:
             # c = requests.get(page)
