@@ -100,6 +100,7 @@ class crawler:
 
     # crawling to depth
     def crawl(self, pages):
+        print('run crawl')
         newpages = set()
         for page in pages:
             # c = requests.get(page)
@@ -177,7 +178,7 @@ class crawler:
                           'drop table if exists urllist',
                           'drop table if exists wordlist',
                           'drop table if exists wordlocation',
-                          'drop table id exists urlcheck']
+                          'drop table if exists urlcheck']
 
         exec_list_reset = ['create table link(fromid integer, toid integer)',
                            'create table linkwords(wordid, linkid)',
