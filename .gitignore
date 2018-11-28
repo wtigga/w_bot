@@ -1,3 +1,4 @@
 .idea/
 .idea
 searchengine/__pycache__/
+searchengine/*.db-journal
