@@ -137,6 +137,8 @@ class crawler:
                         self.con.execute('insert into urlcheck values (?, ?, ?)', q)
                     linkText = self.gettextonly(link)
                     self.addlinkref(page, url, linkText)
+
+                    topicId = re.search(url, '.*taolun\/(forum|thread)-(\d+)(-.*)*\.html')
                 self.dbcommit()
         self.dbcommit()
         print('added %s links for newpages from %a' % (len(newpages), page))
