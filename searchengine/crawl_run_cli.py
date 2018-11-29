@@ -222,16 +222,13 @@ class crawler:
 
 
 crawler = crawler('searchindex.db')
+sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 1'
 
-def run(pages):
-	crawler.crawl(pages[0])
-	sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 1'
+def run(pages=True):
 	pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]
 	if len(pages) > 0:
-		run(pages)
+		crawler.crawl(pages[0])
+		return run(pages)
+	else: return
 
-
-sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 1'
-pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]
-if len(pages) > 0:
-	run(pages)
+run()
