@@ -35,3 +35,7 @@ class searcher:
 		cur = self.con.execute(fullquery)
 		rows = [row for row in cur]
 		return rows, wordids
+
+s = searcher('s.db')
+q = s.getmatchrows('bkrs')
+print(q)

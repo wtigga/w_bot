@@ -97,7 +97,7 @@ class crawler:
 			self.con.execute("insert into linkwords(linkid, wordid) values (%d,%d)" % (linkid, wordid))
 
 	# crawling to depth
-	def crawl(self, pages, depth=2):
+	def crawl(self, pages=False, depth=2):
 		for i in range(depth):
 			newpages = set()
 			# print('crawled pages list len is %s' % len(pages), pages)

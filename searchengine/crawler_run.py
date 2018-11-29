@@ -5,6 +5,7 @@ import multiprocessing as mp
 import searchengine.crawler as crawl
 
 crawler = crawl.crawler('searchindex.db')
+sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 5'
 
 def work(link):
 	res = None
@@ -13,8 +14,8 @@ def work(link):
 		return res
 
 	try:
-		if 'bkrs.info' in link:
-			crawler.crawl([link])
+		if 'bkrs.info' in link and 'slovo' not in link:
+			crawler.crawl(link)
 	except KeyboardInterrupt:
 		terminating.set()
 	except Exception as e:
@@ -31,7 +32,6 @@ def initializer(_terminating):
 def main(iter):
 	terminating = mp.Event()
 
-
 	PROCESSESS_COUNT = 5
 
 	pool = mp.Pool(
@@ -42,7 +42,10 @@ def main(iter):
 
 	try:
 		data = pool.map(work, iter)
-		# return data
+		pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]
+		if len(pages) > 0:
+			main(pages)
+
 	except KeyboardInterrupt:
 		pool.terminate()
 		pool.join()
@@ -54,6 +57,9 @@ if __name__ == '__main__':
 	# page = 'https://bkrs.info/taolun/thread-309342.html'
 	# crawler.createindextables(True)
 	crawler.createindextables()
-	# crawler.con.execute('create table if not exists urls(url unique, text, indexed)')
-	# crawler.con.commit()
-	main(crawler.crawl_init(page))
+	pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]
+
+	if len(pages) > 0:
+		main(pages)
+	else:
+		main(crawler.crawl_init(page))

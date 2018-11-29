@@ -99,69 +99,56 @@ class crawler:
 			self.con.execute("insert into linkwords(linkid, wordid) values (%d,%d)" % (linkid, wordid))
 
 	# crawling to depth
-	def crawl(self, pages):
+	def crawl(self, page):
+
 		newpages = set()
-		for page in pages:
-			# c = requests.get(page)
-			# print('soup for crawling %s' % page)
-			try:
-				c = requests.get(page)
-				# print('soup for crawling %s' % page)
-			except:
-				print('cannot open %s' % page)
-				continue
+		try:
+			c = requests.get(page)
+			print('soup for crawling %s' % page)
+		except:
+			print('cannot open %s' % page)
+			return
 
-			soup = BeautifulSoup(c.text, features="html.parser")
+		soup = BeautifulSoup(c.text, features="html.parser")
 
-			self.addtoindex(page, soup)
+		self.addtoindex(page, soup)
 
-			links = soup.findAll('a')
-			print('got %s links from crawled url from %a' % (len(links), page))
-			q = (page, "", "Y")
-			try:
-				self.con.execute('insert into urlcheck values (?, ?, ?)', q)
-				print("put %s into urlcheck" % page)
-			except sqlite.IntegrityError:
-				isindexed = self.con.execute('select indexed from urlcheck where url = "%s"' % page).fetchone()
-				if isindexed[0] == 'Y':
-					print('%s is already crawled' % page)
-					continue
-				else:
-					self.con.execute('update urlcheck set indexed = "Y" where url = "%s"' % page)
-					print("change %s n to y" % page)
+		links = soup.findAll('a')
+		print('got %s links from crawled url from %a' % (len(links), page))
+		q = (page, "", "Y")
+		try:
+			self.con.execute('insert into urlcheck values (?, ?, ?)', q)
+			print("put %s into urlcheck" % page)
+		except sqlite.IntegrityError:
+			isindexed = self.con.execute('select indexed from urlcheck where url = "%s"' % page).fetchone()
+			if isindexed[0] == 'Y':
+				print('%s is already crawled' % page)
+				return
+			else:
+				self.con.execute('update urlcheck set indexed = "Y" where url = "%s"' % page)
+				print("change %s n to y" % page)
 
-			for link in links:
-				if 'href' in dict(link.attrs):
-					url = urljoin(page, link['href'])
-					if url.find("'") != -1: continue
-					url = url.split('#')[0]
-					# if url[0:4] == 'http' and 'bkrs.info' in url and not self.isindexed(url):
-					# print(link.string, url)
-					isindexed = self.con.execute('select indexed from urlcheck where url = "%s"' % url).fetchone()
-					if url[0:4] == 'http' and 'bkrs.info' in url and 'taolun' in url and not isindexed:
+		for link in links:
+			if 'href' in dict(link.attrs):
+				url = urljoin(page, link['href'])
+				if url.find("'") != -1: continue
+				url = url.split('#')[0]
+				# if url[0:4] == 'http' and 'bkrs.info' in url and not self.isindexed(url):
+				isindexed = self.con.execute('select indexed from urlcheck where url = "%s"' % url).fetchone()
+				if url[0:4] == 'http' and 'bkrs.info' in url and 'taolun' in url and not isindexed:
+					if 'slovo' not in url:
 						newpages.add(url)
 						q = (url, link.string, "N")
 						self.con.execute('insert into urlcheck values (?, ?, ?)', q)
-					linkText = self.gettextonly(link)
-					self.addlinkref(page, url, linkText)
+				linkText = self.gettextonly(link)
+				self.addlinkref(page, url, linkText)
 
-					topicId = re.search(url, '.*taolun\/(forum|thread)-(\d+)(-.*)*\.html')
-				self.dbcommit()
-			print('commit links from one url')
+				topicId = re.search(url, '.*taolun\/(forum|thread)-(\d+)(-.*)*\.html')
+			self.dbcommit()
+		print('commit links from one url')
 		self.dbcommit()
 		print('commit set of urls')
 		print('added %s links for newpages from %a' % (len(newpages), page))
-
-		# if len(newpages) > 0:
-		# 	print('crawl recursive call')
-		# 	self.crawl(newpages)
-		# else:
-		newpages = [i[0] for i in self.con.execute('select url from urlcheck where indexed = "N" order by random() limit 1')
-						.fetchall()]
-		if len(newpages) > 0:
-			print('crawl recursive call from db')
-			self.crawl(newpages)
-		else: return
 
 
 	def crawl_init(self, page):
@@ -234,6 +221,6 @@ class crawler:
 		print('table set finished')
 
 
-crawler = crawler('searchindex.db')
-page = 'https://bkrs.info/taolun/index.php'
-crawler.crawl([page])
+# crawler = crawler('searchindex.db')
+# page = 'https://bkrs.info/taolun/index.php'
+# crawler.crawl([page])
