@@ -4,6 +4,7 @@ import os
 from telebot.types import Message
 import csv
 import urllib.request, json
+import sqlite3
 
 # TOKEN = os.environ.get('TOKEN')
 TOKEN = os.environ.get('TOKEN')
@@ -16,6 +17,15 @@ def read_csv(filename):
         reader = csv.reader(file, delimiter='\t')
         output_list = list(reader)
         return output_list
+
+#added db support
+def read_db(tablename):
+    c = sqlite3.connect('texts.db')
+    cur = c.execute('select * from %s;' % (tablename))
+    res = cur.fetchall()
+    output_list = [i[1] for i in res]
+    c.close()
+    return output_list
 
 
 def clean_list(my_list):  # clean CSV list of empty cells
