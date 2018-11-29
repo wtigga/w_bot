@@ -165,49 +165,28 @@ class crawler:
 
 		return newpages
 
-	def calculatepagerank(self, iterations=20):
-
-		self.con.execute('drop table if exists pagerank')
-		self.con.execute('create table pagerank(urlid primary key, score)')
-
-		self.con.execute('insert into pagerank select rowid, 1.0 from urllist')
-		# for (urlid,) in self.con.execute('select rowid from urllist'):
-		# 	self.con.execute('insert into pagerank(select rowid) values ("%d", "1.0")' % urlid)
-		self.dbcommit()
-
-		for i in range(iterations):
-			print('Iter %s' % i)
-			for (urlid,) in self.con.execute('select rowid from urllist'):
-				pr = 0.15
-				#TODO check
-				for (linker,) in self.con.execute('select distinct fromid from link where toid=%d' % urlid):
-					linkingpr = self.con.execute('select score from pagerank where urlid = %d' % linker).fetchone()[0]
-					linkingcount = self.con.execute('select count(*) from link where fromid = %d' % linker).fetchone()[0]
-					pr += 0.85*(linkingpr/linkingcount)
-				self.con.execute('update pagerank set score = %f where urlid = %d' % (pr, urlid))
-			self.dbcommit()
 
 	# creating tables in db
 	def createindextables(self, reset=False):
 
 		exec_drop_list = ['drop table if exists link',
-						  'drop table if exists linkwords',
-						  'drop table if exists urllist',
-						  'drop table if exists wordlist',
-						  'drop table if exists wordlocation',
-						  'drop table if exists urlcheck']
+		                  'drop table if exists linkwords',
+		                  'drop table if exists urllist',
+		                  'drop table if exists wordlist',
+		                  'drop table if exists wordlocation',
+		                  'drop table if exists urlcheck']
 
 		exec_list_reset = ['create table link(fromid integer, toid integer)',
-						   'create table linkwords(wordid, linkid)',
-						   'create table urllist(url)',
-						   'create table wordlist(word)',
-						   'create table wordlocation(urlid, wordid, location)',
-						   'create index urltoidx on link(toid)',
-						   'create index urlfromidx on link(fromid)',
-						   'create index urlidx on urllist(url)',
-						   'create index wordidx on wordlist(word)',
-						   'create index wordurlidx on wordlocation(wordid)',
-						   'create table urlcheck(url unique, text, indexed)']
+		                   'create table linkwords(wordid, linkid)',
+		                   'create table urllist(url)',
+		                   'create table wordlist(word)',
+		                   'create table wordlocation(urlid, wordid, location)',
+		                   'create index urltoidx on link(toid)',
+		                   'create index urlfromidx on link(fromid)',
+		                   'create index urlidx on urllist(url)',
+		                   'create index wordidx on wordlist(word)',
+		                   'create index wordurlidx on wordlocation(wordid)',
+		                   'create table urlcheck(url unique, text, indexed)']
 
 		if reset == True:
 			for command in exec_drop_list:
@@ -222,16 +201,16 @@ class crawler:
 				continue
 
 		exec_list = ['create table if not exists link(fromid integer, toid integer)',
-					 'create table if not exists linkwords(wordid, linkid)',
-					 'create table if not exists urllist(url)',
-					 'create table if not exists wordlist(word)',
-					 'create table if not exists wordlocation(urlid, wordid, location)',
-					 'create index if not exists urltoidx on link(toid)',
-					 'create index if not exists urlfromidx on link(fromid)',
-					 'create index if not exists urlidx on urllist(url)',
-					 'create index if not exists wordidx on wordlist(word)',
-					 'create index if not exists wordurlidx on wordlocation(wordid)',
-					 'create table if not exists urlcheck(url unique, text, indexed)']
+		             'create table if not exists linkwords(wordid, linkid)',
+		             'create table if not exists urllist(url)',
+		             'create table if not exists wordlist(word)',
+		             'create table if not exists wordlocation(urlid, wordid, location)',
+		             'create index if not exists urltoidx on link(toid)',
+		             'create index if not exists urlfromidx on link(fromid)',
+		             'create index if not exists urlidx on urllist(url)',
+		             'create index if not exists wordidx on wordlist(word)',
+		             'create index if not exists wordurlidx on wordlocation(wordid)',
+		             'create table if not exists urlcheck(url unique, text, indexed)']
 
 		for command in exec_list:
 			try:
@@ -243,6 +222,16 @@ class crawler:
 
 
 crawler = crawler('searchindex.db')
-# page = 'https://bkrs.info/taolun/index.php'
-# crawler.crawl([page])
-crawler.calculatepagerank()
+
+def run(pages):
+	crawler.crawl(pages[0])
+	sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 1'
+	pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]
+	if len(pages) > 0:
+		run(pages)
+
+
+sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 1'
+pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]
+if len(pages) > 0:
+	run(pages)
