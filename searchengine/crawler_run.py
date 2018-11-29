@@ -32,7 +32,7 @@ def main(iter):
 	terminating = mp.Event()
 
 
-	PROCESSESS_COUNT = 20
+	PROCESSESS_COUNT = 5
 
 	pool = mp.Pool(
 		processes=PROCESSESS_COUNT,
