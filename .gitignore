@@ -3,4 +3,5 @@
 searchengine/__pycache__/
 searchengine/*.db-journal
 searchengine/searchindex.db
+searchengine/s.db
 .DS_Store
