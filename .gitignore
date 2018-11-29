@@ -2,3 +2,5 @@
 .idea
 searchengine/__pycache__/
 searchengine/*.db-journal
+searchengine/searchindex.db
+.DS_Store
