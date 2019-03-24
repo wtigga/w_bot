@@ -1,11 +1,12 @@
 # -*- encoding: utf8 -*-
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import _s
 from urllib.parse import urljoin
 import sqlite3 as sqlite
 import re
 from time import time
+import urllib.request
 
 ignorewords = set(['the', 'if', 'to', 'and', 'a', 'in', 'is', 'it'])
 
@@ -103,30 +104,33 @@ class crawler:
 
 		newpages = set()
 		try:
-			c = requests.get(page)
-			print('soup for crawling %s' % page)
+			# c = requests.get(page)
+			with urllib.request.urlopen(page) as f:
+				c = f.read()
+			# print('soup for crawling %s' % page)
 		except:
 			print('cannot open %s' % page)
 			return
 
-		soup = BeautifulSoup(c.text, features="html.parser")
+		soup = _s(c, features="html.parser")
+		# f.close()
 
 		self.addtoindex(page, soup)
 
 		links = soup.findAll('a')
-		print('got %s links from crawled url from %a' % (len(links), page))
+		# print('got %s links from crawled url from %a' % (len(links), page))
 		q = (page, "", "Y")
 		try:
 			self.con.execute('insert into urlcheck values (?, ?, ?)', q)
-			print("put %s into urlcheck" % page)
+			# print("put %s into urlcheck" % page)
 		except sqlite.IntegrityError:
 			isindexed = self.con.execute('select indexed from urlcheck where url = "%s"' % page).fetchone()
 			if isindexed[0] == 'Y':
-				print('%s is already crawled' % page)
+				# print('%s is already crawled' % page)
 				return
 			else:
 				self.con.execute('update urlcheck set indexed = "Y" where url = "%s"' % page)
-				print("change %s n to y" % page)
+				# print("change %s n to y" % page)
 
 		for link in links:
 			if 'href' in dict(link.attrs):
@@ -145,17 +149,18 @@ class crawler:
 
 				# topicId = re.search(url, '.*taolun\/(forum|thread)-(\d+)(-.*)*\.html')
 			self.dbcommit()
-		print('commit links from one url')
+		# print('commit links from one url')
 		self.dbcommit()
-		print('commit set of urls')
-		print('added %s links for newpages from %a' % (len(newpages), page))
+		# print('commit set of urls')
+		print('found %s, added %s links from %a' % (len(links), len(newpages), page))
+		return
 
 
 	def crawl_init(self, page):
 		print('getting initial page')
 		newpages = set()
 		c = requests.get(page)
-		soup = BeautifulSoup(c.text, features="html.parser")
+		soup = _s(c.text, features="html.parser")
 
 		links = soup.findAll('a')
 		for link in links:
@@ -222,7 +227,7 @@ class crawler:
 
 
 crawler = crawler('searchindex.db')
-sqlq = 'select url from urlcheck where indexed = "N" order by random() limit 1'
+sqlq = 'select url from urlcheck where indexed = "N" and url not like "%mode=threaded" order by random() limit 1'
 
 def run(pages=True):
 	pages = [i[0] for i in crawler.con.execute(sqlq).fetchall()]

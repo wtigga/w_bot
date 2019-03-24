@@ -1,7 +1,7 @@
 # -*- encoding: utf8 -*-
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import _s
 from urllib.parse import urljoin
 import sqlite3 as sqlite
 import re
@@ -109,7 +109,7 @@ class crawler:
 			print('cannot open %s' % page)
 			return
 
-		soup = BeautifulSoup(c.text, features="html.parser")
+		soup = _s(c.text, features="html.parser")
 
 		self.addtoindex(page, soup)
 
@@ -155,7 +155,7 @@ class crawler:
 		print('getting initial page')
 		newpages = set()
 		c = requests.get(page)
-		soup = BeautifulSoup(c.text, features="html.parser")
+		soup = _s(c.text, features="html.parser")
 
 		links = soup.findAll('a')
 		for link in links:
@@ -242,7 +242,7 @@ class crawler:
 		print('table set finished')
 
 
-crawler = crawler('searchindex.db')
+# crawler = crawler('searchindex.db')
 # page = 'https://bkrs.info/taolun/index.php'
 # crawler.crawl([page])
-crawler.calculatepagerank()
+# crawler.calculatepagerank()
