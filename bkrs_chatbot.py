@@ -10,6 +10,24 @@ import sqlite3
 TOKEN = os.environ.get('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
+with open('messages.txt', 'r') as f:
+    feedbacks = f.readlines()
+
+def func():
+    for i in feedbacks[:]:
+        lst = i.replace('\n','').replace('<br>','').replace('&quot;', '').split(' ')
+        yield list(zip(lst, lst[1:]))
+
+pairs = func()
+corpora = dict()
+
+for i in pairs:
+    for ii in i:
+        if ii[0] in corpora.keys():
+            corpora[ii[0]].append(ii[1])
+        else:
+            corpora[ii[0]] = [ii[1]]
+
 
 # reading the CSV file with triggers and answers
 def read_csv(filename):
@@ -89,7 +107,17 @@ def react_to_messages(message: Message):
     count = 0  # count the line where the trigger happens
     for line in triggers_all:  # run through each list of trigger
         for each in line:  # run through each word in list
-            if each in reply:  # if the trigger word is in the list
+            if "бот тупой" in reply or "тупой бот" in reply or "выключите бота" in reply or "надоел бот" in reply or "傻бкрс" in reply or "дебильный бот" in reply:
+                first_word = np.random.choice(list(corpora.keys()))
+                chain = [first_word]
+                n_words = 30
+                for i in range(n_words):
+                    try:
+                        chain.append(np.random.choice(corpora[chain[-1]]))
+                    except KeyError:
+                        break
+                bot.reply_to(message, ' '.join(chain))
+            else each in reply:  # if the trigger word is in the list
                 bot.reply_to(message, random.choice(answers_all[count]))  # pick a random answer from the corresponding answer line
                 break  # to prevent answering multiple times to several trigger word
         count = count + 1

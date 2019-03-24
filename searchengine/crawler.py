@@ -1,7 +1,7 @@
 # -*- encoding: utf8 -*-
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import _s
 from urllib.parse import urljoin
 import sqlite3 as sqlite
 import re
@@ -109,7 +109,7 @@ class crawler:
 			print('cannot open %s' % page)
 			return
 
-		soup = BeautifulSoup(c.text, features="html.parser")
+		soup = _s(c.text, features="html.parser")
 
 		self.addtoindex(page, soup)
 
@@ -143,7 +143,7 @@ class crawler:
 				linkText = self.gettextonly(link)
 				self.addlinkref(page, url, linkText)
 
-				topicId = re.search(url, '.*taolun\/(forum|thread)-(\d+)(-.*)*\.html')
+				# topicId = re.search(url, '.*taolun\/(forum|thread)-(\d+)(-.*)*\.html')
 			self.dbcommit()
 		print('commit links from one url')
 		self.dbcommit()
@@ -155,7 +155,7 @@ class crawler:
 		print('getting initial page')
 		newpages = set()
 		c = requests.get(page)
-		soup = BeautifulSoup(c.text, features="html.parser")
+		soup = _s(c.text, features="html.parser")
 
 		links = soup.findAll('a')
 		for link in links:
@@ -165,6 +165,27 @@ class crawler:
 
 		return newpages
 
+	def calculatepagerank(self, iterations=20):
+
+		self.con.execute('drop table if exists pagerank')
+		self.con.execute('create table pagerank(urlid primary key, score)')
+
+		self.con.execute('insert into pagerank select rowid, 1.0 from urllist')
+		# for (urlid,) in self.con.execute('select rowid from urllist'):
+		# 	self.con.execute('insert into pagerank(select rowid) values ("%d", "1.0")' % urlid)
+		self.dbcommit()
+
+		for i in range(iterations):
+			print('Iter %s' % i)
+			for (urlid,) in self.con.execute('select rowid from urllist'):
+				pr = 0.15
+				#TODO check
+				for (linker,) in self.con.execute('select distinct fromid from link where toid=%d' % urlid):
+					linkingpr = self.con.execute('select score from pagerank where urlid = %d' % linker).fetchone()[0]
+					linkingcount = self.con.execute('select count(*) from link where fromid = %d' % linker).fetchone()[0]
+					pr += 0.85*(linkingpr/linkingcount)
+				self.con.execute('update pagerank set score = %f where urlid = %d' % (pr, urlid))
+			self.dbcommit()
 
 	# creating tables in db
 	def createindextables(self, reset=False):
@@ -224,3 +245,4 @@ class crawler:
 # crawler = crawler('searchindex.db')
 # page = 'https://bkrs.info/taolun/index.php'
 # crawler.crawl([page])
+# crawler.calculatepagerank()
