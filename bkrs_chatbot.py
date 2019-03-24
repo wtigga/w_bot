@@ -53,7 +53,7 @@ def currency(currency_pair):
         data = round((json.load(url)[currency_pair]["val"]), 3)  # get currency rate from VAL, round to 3 digits float
         output = (f'Курс {currencies_texts[currency_pair]}: ' + str(data))
         return output
-    
+
 
 triggers_all = tuple(clean_upper_list(read_csv('triggers.csv')))  # use tuples to speed up search and iterations
 answers_all = tuple(clean_upper_list(read_csv('answers.csv')))
@@ -78,6 +78,10 @@ def currency_usd(message: Message):
 def currency_rub(message: Message):
     bot.reply_to(message, currency('USD_RUB'))
 
+@bot.message_handler(content_types=['voice'])
+def handle_docs_audio(message):
+    bot.reply_to(message, 'Разговорчики!')
+
 
 @bot.message_handler(func=lambda message: True)
 def react_to_messages(message: Message):
@@ -90,5 +94,10 @@ def react_to_messages(message: Message):
                 break  # to prevent answering multiple times to several trigger word
         count = count + 1
 
-
+'''
 bot.polling()  # this run bot messages handler
+'''
+
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
+
