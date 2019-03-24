@@ -117,6 +117,7 @@ def react_to_messages(message: Message):
                     except KeyError:
                         break
                 bot.reply_to(message, ' '.join(chain))
+                break
             else: 
                 for each in reply:  # if the trigger word is in the list
                     bot.reply_to(message, random.choice(answers_all[count]))  # pick a random answer from the corresponding answer line
