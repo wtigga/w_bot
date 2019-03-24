@@ -107,19 +107,19 @@ def react_to_messages(message: Message):
     count = 0  # count the line where the trigger happens
     for line in triggers_all:  # run through each list of trigger
         for each in line:  # run through each word in list
-            if "бот тупой" in reply or "тупой бот" in reply or "выключите бота" in reply or "надоел бот" in reply or "傻бкрс" in reply or "дебильный бот" in reply:
-                first_word = np.random.choice(list(corpora.keys()))
-                chain = [first_word]
-                n_words = 30
-                for i in range(n_words):
-                    try:
-                        chain.append(np.random.choice(corpora[chain[-1]]))
-                    except KeyError:
-                        break
-                bot.reply_to(message, ' '.join(chain))
-                break
-            else: 
-                for each in reply:  # if the trigger word is in the list
+            for each in reply:  # if the trigger word is in the list
+                if "бот тупой" in reply or "тупой бот" in reply or "выключите бота" in reply or "надоел бот" in reply or "傻бкрс" in reply or "дебильный бот" in reply:
+                    first_word = np.random.choice(list(corpora.keys()))
+                    chain = [first_word]
+                    n_words = 30
+                    for i in range(n_words):
+                        try:
+                            chain.append(np.random.choice(corpora[chain[-1]]))
+                        except KeyError:
+                            break
+                    bot.reply_to(message, ' '.join(chain))
+                    break
+                else: 
                     bot.reply_to(message, random.choice(answers_all[count]))  # pick a random answer from the corresponding answer line
                     break  # to prevent answering multiple times to several trigger word
         count = count + 1
